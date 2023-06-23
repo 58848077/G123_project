@@ -59,7 +59,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
 # API Endpoints
 ## 1. Get Financial Data
-### Request
+### Endpoint
 
     GET localhost:8000/api/financial_data
 
@@ -154,7 +154,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
 
 ## 2. Get Statistics
-### Request
+### Endpoint
 
     GET localhost:8000/api/statistics
 

@@ -25,10 +25,6 @@ def get_stock_data():
     """
     Get the financial data of Two given stocks (IBM, Apple Inc.)for the most recently two weeks.
     """
-    result = {
-        "data": [],
-        "count": 0,
-    }
 
     # Get ALPHAVANTAGE API KEY from .env file. 
     load_dotenv()
@@ -45,23 +41,11 @@ def get_stock_data():
         response = response.json()
         fin_data = [ financial_data(symbol=stock, date=key, open_price=float(value["1. open"]), close_price=float(value["4. close"]), volume=value["6. volume"]) for key, value in response["Time Series (Daily)"].items() if key > two_weeks_ago ]
         data += fin_data
-        
-        # To display the data retrieved from the API.
-        objects = [{
-            "symbol": stock,
-            "date": key,
-            "open_price": float(value["1. open"]),
-            "close_price": float(value["4. close"]),
-            "volume": value["6. volume"],
-        } for key, value in response["Time Series (Daily)"].items() if key > two_weeks_ago ]
-        result["data"] += objects
     
     # Django ORM function that can insert a bunch of data, with ignore_conflicts=True, would ignore any duplicated records.
     financial_data.objects.bulk_create(data, ignore_conflicts=True)
     
-    result["count"] = len(result["data"])
-    print(result)
-    return result
+    return
 
 if __name__ == '__main__':
     get_stock_data()
