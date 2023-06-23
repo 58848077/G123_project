@@ -54,7 +54,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
     `python3 manage.py migrate`.
 
-* Since we are using Django ORM to handle the database, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_data/models.py`.
+* Please note that due to the use of Django ORM for database operations, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_datamodels.py`.
 
 
 # API Endpoints
