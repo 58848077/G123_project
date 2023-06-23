@@ -1,10 +1,10 @@
 # G123 Project
-## Project Description
+## :page_with_curl:	 Project Description
 The G123 Project is a project that enables users to access stock information, including symbol, date, open price, close price, and volume, and stock statistics through the API endpoints.
 
 Stock information (symbols, dates, opening prices, closing prices, and volumes) is retrieved from [AlphaVantage](https://www.alphavantage.co/documentation/#dailyadj) and inserted into a database for storage.
 
-## Tech Stack
+## :page_with_curl:	 Tech Stack
 | Name | Version | Explanation |
 | --- | --- | --- |
 | python | 3.9.6 |
@@ -14,56 +14,74 @@ Stock information (symbols, dates, opening prices, closing prices, and volumes) 
 | requests | 2.31.0 | To call an API endpoint.
 | sqlite3 | | Lightweight, perfect for small projects.
 
-## Store API Key Securely
+## :sunglasses:	Store API Key Securely
 To securely store the API Key, we store it in the `.env` file. The `.env` file on the local machine is not pushed to GitHub. Instead, there is a `sample.env` file that contains all the variables. Users can add the variables from the `sample.env` file to the `.env` file.
 
-## Installation and Launch
+## :globe_with_meridians: Installation and Launch
 1. Clone this [repository](https://github.com/58848077/G123_project.git):
 
-    `git clone https://github.com/58848077/G123_project.git`
+    ```
+    git clone https://github.com/58848077/G123_project.git
+    ```
 
 2. Move to the G123_project folder:
     
-    `cd G123_project`
+    ```
+    cd G123_project
+    ```
 
 3. Install the libraries:
    
-   `pip install -r requirements.txt`
+   ```
+   pip install -r requirements.txt
+   ```
 
 4. Create an `.env` file in root folder and add the variables. See `sample.env` for assistance.
 
 5. Run the following command to start the server:
 
-    `sudo docker compose up --build`
+    ```
+    sudo docker compose up --build
+    ```
 
 6. To update the financial data, please run the following command:
 
-    `python3 get_raw_data.py`
+    ```
+    python3 get_raw_data.py
+    ```
 
 * The project use `8000` as the port.
 
-    `localhost:8000/`
+    ```
+    localhost:8000/
+    ```
 
-## Perform ORM Model Migration
+## :globe_with_meridians: Perform ORM Model Migration
 We use Django ORM to manipulate the database. Here are the steps to migrate the models after modifying the ORM models:
 
 1. Navigate to the `financial` folder.
 
-    `cd financial/`
+    ```
+    cd financial/
+    ```
 
 2. If there are any changes in `models.py`, create migration files: 
 
-    `python3 manage.py makemigrations`
+    ```
+    python3 manage.py makemigrations
+    ```
 
 3. Migrate the database: 
 
-    `python3 manage.py migrate`.
+    ```
+    python3 manage.py migrate
+    ```
 
 * Please note that due to the use of Django ORM for database operations, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_data/models.py`.
 
 
-# API Endpoints
-## 1. Get Financial Data
+# :round_pushpin: API Endpoints
+## :pushpin: Get Financial Data
 ### Endpoint
 
     GET localhost:8000/api/financial_data
@@ -158,7 +176,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
     }
 
 
-## 2. Get Statistics
+## :pushpin: Get Statistics
 ### Endpoint
 
     GET localhost:8000/api/statistics
