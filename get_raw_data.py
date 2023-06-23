@@ -14,7 +14,7 @@ from financial.fin_data.models import financial_data
 def get_date_two_weeks_ago():
     """
     Returns:
-        String: The date string two weeks ago(yyyy-mm-dd).
+        String: The date string for two weeks ago (yyyy-mm-dd).
     """
     two_weeks_ago = datetime.datetime.now() - datetime.timedelta(days=14)
     two_weeks_ago_month = f"0{two_weeks_ago.month}" if len(str(two_weeks_ago.month)) == 1 else two_weeks_ago.month
@@ -45,7 +45,8 @@ def get_stock_data():
         response = response.json()
         fin_data = [ financial_data(symbol=stock, date=key, open_price=float(value["1. open"]), close_price=float(value["4. close"]), volume=value["6. volume"]) for key, value in response["Time Series (Daily)"].items() if key > two_weeks_ago ]
         data += fin_data
-
+        
+        # To display the data retrieved from the API.
         objects = [{
             "symbol": stock,
             "date": key,

@@ -14,21 +14,32 @@ Stock information (symbols, dates, opening prices, closing prices, and volumes) 
 |requests |2.31.0 |
 
 ## Store API Key Securely
-To securely store the API Key, I have stored it in the .env file. The .env file on the local machine is not pushed to GitHub. Instead, there is a sample.env file that contains all the variables. Users can add the variables from the sample.env file to the .env file.
+To securely store the API Key, we store it in the `.env` file. The `.env` file on the local machine is not pushed to GitHub. Instead, there is a `sample.env` file that contains all the variables. Users can add the variables from the `sample.env` file to the `.env` file.
 
-## Installation and Launch Guide
-* Clone this [repository](https://github.com/58848077/G123_project.git).
+## Installation and Launch
+1. Clone this [repository](https://github.com/58848077/G123_project.git):
 
     `git clone https://github.com/58848077/G123_project.git`
 
-* Create an .env file in root folder and add your variables. See sample.env for assistance.
+2. Move to the G123_project folder:
+    
+    `cd G123_project`
 
-* Run the following command to start the server:
+3. Install the libraries:
+   
+   `pip install -r requirements.txt`
+
+4. Create an `.env` file in root folder and add the variables. See `sample.env` for assistance.
+
+5. Run the following command to start the server:
 
     `sudo docker compose up --build`
 
+6. To update the financial data, please run the following command:
+
+    `python3 get_raw_data.py`
 # API Endpoints
-## Get Financial Data
+## 1. Get Financial Data
 ### Request
 
     GET localhost:8000/api/financial_data
@@ -121,7 +132,7 @@ To securely store the API Key, I have stored it in the .env file. The .env file 
     }
 
 
-## Get Statistics
+## 2. Get Statistics
 ### Request
 
     GET localhost:8000/api/statistics
