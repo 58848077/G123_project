@@ -38,6 +38,25 @@ To securely store the API Key, we store it in the `.env` file. The `.env` file o
 6. To update the financial data, please run the following command:
 
     `python3 get_raw_data.py`
+
+## Perform ORM Model Migration
+We use Django ORM to manipulate the database. Here are the steps to migrate the models after modifying the ORM models:
+
+1. Navigate to the `financial` folder.
+
+    `cd financial/`
+
+2. Create migration files: 
+
+    `python3 manage.py makemigrations`
+
+3. Migrate the database: 
+
+    `python3 manage.py migrate`.
+
+* Since we are using Django ORM to handle the database, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_data/models.py`.
+
+
 # API Endpoints
 ## 1. Get Financial Data
 ### Request
@@ -111,7 +130,9 @@ To securely store the API Key, we store it in the `.env` file. The `.env` file o
             "limit":3,
             "pages":2
         },
-        "info":{"error":""}
+        "info":{
+            "error":""
+        }
     }
 
 #### Sample Error Request 
