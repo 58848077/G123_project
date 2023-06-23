@@ -5,13 +5,14 @@ The G123 Project is a project that enables users to access stock information, in
 Stock information (symbols, dates, opening prices, closing prices, and volumes) is retrieved from [AlphaVantage](https://www.alphavantage.co/documentation/#dailyadj) and inserted into a database for storage.
 
 ## Tech Stack
-| Name | Version |
-| --- | --- |
-|python |3.9.6 |
-|Django |4.0 |
-|djangorestframework |3.14 |
-|python-dotenv | 1.0.0|
-|requests |2.31.0 |
+| Name | Version | Explanation |
+| --- | --- | --- |
+| python | 3.9.6 |
+| Django | 4.0 | I primarily use Django and DRF (Django REST framework) for developing APIs, so I am more familiar with these technologies.
+| djangorestframework | 3.14 | Same as above.
+| python-dotenv | 1.0.0| To load .env file.
+| requests | 2.31.0 | To call an API endpoint.
+| sqlite3 | | Lightweight, perfect for small projects.
 
 ## Store API Key Securely
 To securely store the API Key, we store it in the `.env` file. The `.env` file on the local machine is not pushed to GitHub. Instead, there is a `sample.env` file that contains all the variables. Users can add the variables from the `sample.env` file to the `.env` file.
@@ -39,6 +40,10 @@ To securely store the API Key, we store it in the `.env` file. The `.env` file o
 
     `python3 get_raw_data.py`
 
+* The project use `8000` as the port.
+
+    `localhost:8000/`
+
 ## Perform ORM Model Migration
 We use Django ORM to manipulate the database. Here are the steps to migrate the models after modifying the ORM models:
 
@@ -46,7 +51,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
     `cd financial/`
 
-2. Create migration files: 
+2. If there are any changes in `models.py`, create migration files: 
 
     `python3 manage.py makemigrations`
 
@@ -54,7 +59,7 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
     `python3 manage.py migrate`.
 
-* Please note that due to the use of Django ORM for database operations, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_datamodels.py`.
+* Please note that due to the use of Django ORM for database operations, the original `model.py` file that was supposed to be located in the root folder will be moved to `financial/fin_data/models.py`.
 
 
 # API Endpoints
@@ -206,18 +211,15 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
 #### Sample Error Response 
     {
-        "data":[],
-        "pagination":{
-            "count":0,
-            "page":0,
-            "limit":0,
-            "pages":0
+        "data":{
+            "start_date":"2023-06-01",
+            "end_date":"2023-06-23",
+            "symbol":"IBM",
+            "average_daily_open_price":0,
+            "average_daily_close_price":0,
+            "average_daily_volume":0
         },
         "info":{
             "error":"Query parameter(s) required: symbol, start_date, end_date, please check again."
         }
     }
-
-
-# License
-This project is available for use under the MIT License.
