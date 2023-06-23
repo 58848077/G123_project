@@ -3,7 +3,7 @@ import os
 import datetime
 from dotenv import load_dotenv
 
-# Necessary settings to use Django ORM directly, and should be imported before calling ORM models
+# Required settings to use Django ORM directly; they should be imported before accessing ORM models.
 import django
 os.environ['DJANGO_SETTINGS_MODULE'] = "financial.financial.settings"
 django.setup()
@@ -23,26 +23,26 @@ def get_date_two_weeks_ago():
 
 def get_stock_data():
     """
-    Get the financial data of Two given stocks (IBM, Apple Inc.)for the most recently two weeks.
+    Get the financial data of TWO given stocks(IBM, Apple Inc.) for the past two weeks.
     """
 
     # Get ALPHAVANTAGE API KEY from .env file. 
     load_dotenv()
     ALPHAVANTAGE_API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
 
-    two_weeks_ago = get_date_two_weeks_ago()
+    date_two_weeks_ago = get_date_two_weeks_ago()
     stocks = ["IBM", "AAPL"]
     data = []
 
-    # Get IBM and Apple Inc. financial data recursively.
+    # Retrieve IBM and Apple Inc. financial data recursively.
     for stock in stocks:
         url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={stock}&apikey={ALPHAVANTAGE_API_KEY}'
         response = requests.get(url)
         response = response.json()
-        fin_data = [ financial_data(symbol=stock, date=key, open_price=float(value["1. open"]), close_price=float(value["4. close"]), volume=value["6. volume"]) for key, value in response["Time Series (Daily)"].items() if key > two_weeks_ago ]
+        fin_data = [ financial_data(symbol=stock, date=date, open_price=float(value["1. open"]), close_price=float(value["4. close"]), volume=value["6. volume"]) for date, value in response["Time Series (Daily)"].items() if date > date_two_weeks_ago ]
         data += fin_data
     
-    # Django ORM function that can insert a bunch of data, with ignore_conflicts=True, would ignore any duplicated records.
+    # Django ORM provides a function that allows the insertion of a batch of data. When the ignore_conflicts parameter is set to True, any duplicate records will be ignored.
     financial_data.objects.bulk_create(data, ignore_conflicts=True)
     
     return
