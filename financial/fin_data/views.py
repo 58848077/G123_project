@@ -37,12 +37,12 @@ def check_query_format(
         for key, date in data["dates"].items():
             if len(date) != 10:
                 result["status"] = False
-                result["message"] += f"{key}({date}), date length/format error, format should be yyyy-mm-dd. "
+                result["message"] += f"{key}({date}), length/format error, format should be yyyy-mm-dd. "
                 continue
             match = re.search(r'\d{4}-\d{2}-\d{2}', date)
             if not match:
                 result["status"] = False
-                result["message"] += f"{key}({date}), date format error, format should be yyyy-mm-dd. "
+                result["message"] += f"{key}({date}), format error, format should be yyyy-mm-dd. "
     
     if "page" in data:
         try:
