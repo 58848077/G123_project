@@ -1,0 +1,16 @@
+asgiref==3.7.2
+certifi==2023.5.7
+charset-normalizer==3.1.0
+Django==4.0
+django-filter==23.2
+djangorestframework==3.14.0
+idna==3.4
+importlib-metadata==6.7.0
+Markdown==3.4.3
+python-dotenv==1.0.0
+pytz==2023.3
+requests==2.31.0
+sqlparse==0.4.4
+typing_extensions==4.6.3
+urllib3==1.26.15
+zipp==3.15.0
