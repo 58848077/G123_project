@@ -4,6 +4,7 @@ from .models import financial_data
 
 from django.core.paginator import Paginator, EmptyPage
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -43,7 +44,7 @@ def check_query_format(
             if not match:
                 result["status"] = False
                 result["message"] += f"{key}({date}), format error, format should be yyyy-mm-dd. "
-    
+
     if "page" in data:
         try:
             page = int(data["page"])
@@ -147,7 +148,12 @@ class FinancialDataView(APIView):
         )
         if not dates_check["status"]:
             result["info"]["error"] = f"{dates_check['message']}"
-            return Response(result)
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if start_date is earlier or same as end_date or not.
+        if start_date > end_date:
+            result["info"]["error"] = f"start_date({start_date}) must not be earlier than end_date({end_date}) " 
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
         # Get the finanical data
         fin_data = financial_data.objects.filter(date__gte=start_date, date__lte=end_date).order_by('date') if not symbol else financial_data.objects.filter(symbol=symbol, date__gte=start_date, date__lte=end_date).order_by('date')
@@ -205,10 +211,6 @@ class StatisticsView(APIView):
         start_date = request.query_params.get("start_date", "")
         end_date = request.query_params.get("end_date", "")
 
-        result["data"]["symbol"] = symbol
-        result["data"]["start_date"] = start_date
-        result["data"]["end_date"] = end_date
-
         # Check required parameters(symbol, start_date, end_date).
         required_params_check = check_required_query_params(
             symbol=symbol,
@@ -217,8 +219,14 @@ class StatisticsView(APIView):
         )
         if not required_params_check["status"]:
             result["info"]["error"] = f"{required_params_check['message']}"
-            return Response(result)
-        
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if start_date is earlier than or the same as end_date or not.
+        if start_date > end_date:
+            result["status"] = False
+            result["message"] = f"start_date({start_date}) must not be earlier than end_date({end_date}) " 
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
+
         # Check query format(symbol, start_date, end_date).
         dates_check = check_query_format(
             symbol=symbol,
@@ -229,14 +237,15 @@ class StatisticsView(APIView):
         )
         if not dates_check["status"]:
             result["info"]["error"] = f"{dates_check['message']}"
-            return Response(result)
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
         
         # Check if there is data for the symbol in the database, return error info if there is no any data.
         fin_data_check = financial_data.objects.filter(symbol=symbol)
         if len(fin_data_check) == 0:
             result["info"]["error"] = f"No data available for the symbol in the database."
-            return Response(result)
+            return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
+        # Calculating the average result.
         fin_data = financial_data.objects.filter(symbol=symbol, date__gte=start_date, date__lte=end_date).values('open_price', 'close_price', 'volume')
         for data in fin_data:
             result["data"]["average_daily_open_price"] += data["open_price"]
@@ -244,6 +253,9 @@ class StatisticsView(APIView):
             result["data"]["average_daily_volume"] += data["volume"]
 
         total_day = len(fin_data)
+        result["data"]["symbol"] = symbol
+        result["data"]["start_date"] = start_date
+        result["data"]["end_date"] = end_date
         result["data"]["average_daily_open_price"] = round(result["data"]["average_daily_open_price"]/total_day, 2) if fin_data else 0
         result["data"]["average_daily_close_price"] = round(result["data"]["average_daily_close_price"]/total_day, 2) if fin_data else 0
         result["data"]["average_daily_volume"] = int(round(result["data"]["average_daily_volume"]/total_day, 0)) if fin_data else 0

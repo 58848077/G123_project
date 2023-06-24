@@ -90,11 +90,11 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
 | Query | Type | Description |
 | --- | --- | --- |
-| symbol | str | IBM or AAPL(Apple Inc.) |
-| start_date | str | yyyy-mm-dd |
-| end_date | str | yyyy-mm-dd |
-| limit | int | limit of records can be retrieved for single page. |
-| page | int | total number of pages. |
+| `symbol` | str | IBM or AAPL(Apple Inc.) |
+| `start_date` | str | yyyy-mm-dd |
+| `end_date` | str | yyyy-mm-dd |
+| `limit` | int | limit of records can be retrieved for single page. |
+| `page` | int | total number of pages. |
 
 ### Response
 
@@ -185,9 +185,9 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 
 | Query | Type | Description |
 | --- | --- | --- |
-| symbol | str | IBM or AAPL(Apple Inc.) |
-| start_date | str | yyyy-mm-dd |
-| end_date | str | yyyy-mm-dd |
+| `symbol` | str | IBM or AAPL(Apple Inc.) |
+| `start_date` | str | yyyy-mm-dd |
+| `end_date` | str | yyyy-mm-dd |
 
 ### Response
 
@@ -230,9 +230,9 @@ We use Django ORM to manipulate the database. Here are the steps to migrate the 
 #### Sample Error Response 
     {
         "data":{
-            "start_date":"2023-06-01",
-            "end_date":"2023-06-23",
-            "symbol":"IBM",
+            "start_date":"",
+            "end_date":"",
+            "symbol":"",
             "average_daily_open_price":0,
             "average_daily_close_price":0,
             "average_daily_volume":0

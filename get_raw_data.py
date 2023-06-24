@@ -25,7 +25,6 @@ def get_stock_data():
     """
     Get the financial data of TWO given stocks(IBM, Apple Inc.) for the past two weeks.
     """
-
     # Get ALPHAVANTAGE API KEY from .env file. 
     load_dotenv()
     ALPHAVANTAGE_API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
