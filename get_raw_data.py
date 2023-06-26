@@ -28,9 +28,7 @@ def get_stock_data():
     # Get ALPHAVANTAGE API KEY from .env file. 
     load_dotenv()
     ALPHAVANTAGE_API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
-    if not ALPHAVANTAGE_API_KEY:
-        print("Error: Alphavantage API Key Not Found.")
-        return
+    assert ALPHAVANTAGE_API_KEY, "Alphavantage API Key Not Found."
 
     date_two_weeks_ago = get_date_two_weeks_ago()
     stocks = ["IBM", "AAPL"]
